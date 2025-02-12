@@ -2,10 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('pages.login');
-});
+use App\Http\Controllers\LoginController;
+use Illuminate\Auth\Events\Login;
 
+
+
+Route::get('/', [LoginController::class, 'index']);
 
 
 Route::get('/dashboard', function () {

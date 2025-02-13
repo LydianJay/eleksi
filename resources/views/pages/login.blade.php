@@ -37,9 +37,7 @@
                   </form>
                 </div>
                 <div class="card-footer text-center pt-0 px-lg-2 px-1">
-                 
                   <p class="mb-4 text-sm mx-auto">
-
                     Contact System Administrator if you are having trouble signing in.
                   </p>
                 </div>

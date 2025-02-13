@@ -8,6 +8,18 @@
                 <div class="card-header pb-0 text-start">
                   <h4 class="font-weight-bolder">Sign In</h4>
                   <p class="mb-0">Admin Login</p>
+                  <div class="my-1 px-2">
+                    @if ($errors->any())
+                      <div class="alert alert-danger text-center my-auto">
+                        <ul class="my-auto py-auto">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                      </div>
+                    @endif
+                  </div>
+
                 </div>
                 <div class="card-body">
                   <form role="form" method="POST" action="{{ route('login') }}">
@@ -25,7 +37,9 @@
                   </form>
                 </div>
                 <div class="card-footer text-center pt-0 px-lg-2 px-1">
+                 
                   <p class="mb-4 text-sm mx-auto">
+
                     Contact System Administrator if you are having trouble signing in.
                   </p>
                 </div>

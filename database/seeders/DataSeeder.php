@@ -16,15 +16,27 @@ class DataSeeder extends Seeder
     {
         for ($i=0; $i < 10; $i++) {
 
+            $voltage    = $this->randomFloat(230, 250);
+            $amps       = $this->randomFloat(0.1, 10);
+            $power      = $voltage * $amps;
+            $energy     = $power * 0.5;
+
+
             ElectricityData::create([
-                'voltage' => 'admin',
-                'current' => 'admin123',
-                'power' => 'admin123',
-                'energy' => 'admin123',
+                'voltage'   => $voltage,
+                'current'   => $amps,
+                'power'     => $power,
+                'energy'    => $energy,
             ]);
         
         }
         
         
+    }
+
+
+    private function randomFloat($min, $max)
+    {
+        return $min + mt_rand() / mt_getrandmax() * ($max - $min);
     }
 }

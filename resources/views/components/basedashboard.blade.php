@@ -14,7 +14,7 @@
 -->
 
 
-@props(['data' => []])
+@props(['active_link'])
 
 
 <!DOCTYPE html>
@@ -62,7 +62,7 @@
         @foreach( config('routes') as $d)
         
         <li class="nav-item">
-          <a class="nav-link {{ strcmp(session()->get('active_link'), $d['name']) == 0 ? 'active' : '' }} " href="{{ route($d['route']) }}">
+          <a class="nav-link {{ strcmp($active_link, $d['name']) == 0 ? 'active' : '' }} " href="{{ route($d['route']) }}">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="bi bi-boxes text-dark text-sm opacity-10"></i>
             </div>

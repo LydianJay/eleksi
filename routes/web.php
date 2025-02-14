@@ -10,7 +10,7 @@ use App\Http\Controllers\DashboardController;
 Route::get('/', [LoginController::class, 'index'])->name('loginview');
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
-
+Route::get('/table', [LoginController::class, 'table'])->name('table'); // to changed
 
 
 Route::middleware(['auth'])->group(function (){

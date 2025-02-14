@@ -21,21 +21,24 @@ class LoginController extends Controller
             'password' => 'required'
         ]);
 
+
+        session()->put('active_link', 'dashboard');
         $user = User::where('name', $request->name)->first();
 
         if ($user && Hash::check($request->password, $user->password)) {
             Auth::login($user);
-            return redirect()->route('dashboard'); // Redirect to a protected page
+            return redirect()->route('dashboard');
         }
 
+
+        
         return back()->withErrors(['email' => 'Invalid credentials']);
-
-
     }
 
 
     public function logout() {
         Auth::logout();
+        session()->invalidate();
         return redirect()->route('loginview');
     }
 }

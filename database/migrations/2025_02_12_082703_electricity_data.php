@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-
+use Carbon\Carbon;
 return new class extends Migration
 {
     /**
@@ -17,7 +17,7 @@ return new class extends Migration
             $table->float('current');
             $table->float('power');
             $table->float('energy');
-            $table->timestamps();
+            $table->timestamp('date')->default(Carbon::now());
         });
     }
 

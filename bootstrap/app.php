@@ -11,6 +11,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
+        $middleware->validateCsrfTokens(except: [
+            'http://localhost/eleksi/public/insert',
+            'insert',
+        ]);
         //
     })
     ->withExceptions(function (Exceptions $exceptions) {

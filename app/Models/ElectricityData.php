@@ -9,5 +9,19 @@ class ElectricityData extends Model
     //
     protected $table = 'electricity_data';
     protected $primaryKey = 'id';
+
+
+    public $timestamps = false;
+
+    protected $fillable = [
+        'voltage',
+        'current',
+        'power',
+        'energy',
+    ];
+
+
+    
+
     
 }

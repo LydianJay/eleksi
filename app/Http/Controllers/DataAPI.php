@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ElectricityData;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Date;
+
 class DataAPI extends Controller
 {
     public function insert(Request $request){
@@ -22,5 +25,15 @@ class DataAPI extends Controller
 
         return response()->json(['msg' => 'Data Inserted Successfully!']);
 
+    }
+
+
+    public function getToday() {
+
+        $query = ElectricityData::whereDate('date', Carbon::now())
+        ->orderBy('id','desc')
+        ->first();
+        
+        return response()->json($query);
     }
 }

@@ -14,8 +14,13 @@ Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::post('/insert', [DataAPI::class, 'insert'])->name('insert');
 
+
+Route::get('/gettoday', [DataAPI::class,'getToday'])->name('get_today');
+
+
 Route::middleware(['auth'])->group(function (){
     
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/table', [TableController::class, 'index'])->name('table'); 
+
 });

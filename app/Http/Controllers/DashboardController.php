@@ -11,26 +11,23 @@ use Illuminate\Support\Facades\Date;
 class DashboardController extends Controller
 {
     public function index() {
-
-        $data = ElectricityData::whereDate("date", Carbon::now())
-            ->orderBy("id","asc")
+        $data = ElectricityData::whereBetween('date', [Carbon::today()->startOfDay(), Carbon::today()->endOfDay()])
+            ->orderBy("id", "asc")
             ->get();
 
-        // dd(Carbon::now());
-        $maxID = ElectricityData::whereDate("date", Carbon::now())
+        $maxID = ElectricityData::whereBetween('date', [Carbon::today()->startOfDay(), Carbon::today()->endOfDay()])
             ->orderBy("id","asc")
             ->max("id");
 
         $energy = ElectricityData::select('energy')
-            ->whereDate("date", Carbon::now())
-            ->max("energy");
+            ->whereBetween('date', [Carbon::today()->startOfDay(), Carbon::today()->endOfDay()])
+            ->max('energy');
 
         $lastday = ElectricityData::select('energy')
-            ->whereDate("date", Carbon::now()->subDays(1))
-            ->max("energy");
+            ->whereBetween('date', [Carbon::today()->subDays(1)->startOfDay(), Carbon::today()->startOfDay()])
+            ->max('energy');
 
         
-
         $dif = 0;
 
         if(isset($lastday) && $lastday != null) {

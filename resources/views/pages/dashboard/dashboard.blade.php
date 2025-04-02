@@ -108,7 +108,7 @@ $energy = [];
   $v[] = $d->voltage;
   $current[] = $d->current;
   $energy[] = $d->energy;
-  $labels[] = \Carbon\Carbon::parse($d->time)->format('H:i:s');
+  $labels[] = \Carbon\Carbon::parse($d->date)->format('H:i:s');
         @endphp
       @endforeach            
         let labels    = @json($labels);
@@ -117,7 +117,7 @@ $energy = [];
         let energy    = @json($energy);
         let maxID     = {{ $max_id }};
         let maxEnergy = {{ $max_energy }}
-                  
+        console.log(labels);
 
       function formatTimestamp(timestamp) {
           const date = new Date(timestamp); // Create a Date object

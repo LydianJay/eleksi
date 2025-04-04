@@ -31,7 +31,7 @@ class DashboardController extends Controller
         $dif = 0;
 
         if(isset($lastday) && $lastday != null) {
-            $dif = ($lastday / ($energy - $lastday)) * 100;
+            $dif = 100 - (($energy - $lastday) / $energy ) * 100;
         }
 
         return view('pages.dashboard.dashboard', ['data' => $data, 'active_link' => 'dashboard', 'max_id' => $maxID, 'max_energy' => $energy, 'dif' => $dif]);

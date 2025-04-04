@@ -6,13 +6,13 @@
                     <div class="row">
                         <div class="col-8">
                             <div class="numbers">
-                                <p class="text-sm mb-0 text-uppercase font-weight-bold"> Total Energy Consumed </p>
+                                <p class="text-sm mb-0 text-uppercase font-weight-bold">Energy </p>
                                 <h5 class="font-weight-bolder" id="max_energy">
                                     {{ number_format(isset($max_energy) ? $max_energy : 0, 2) }} KWH
                                 </h5>
                                 
                                 <p class="mb-0">
-                                    <span class="text-info text-sm font-weight-bolder">+{{  number_format($dif, 2) }}%</span>
+                                    <span class="text-sm font-weight-bolder {{ $dif <= 100 ? 'text-success' : 'text-danger' }} ">{{ $dif <= 100 ? '-' : '+' }}{{  number_format($dif, 2) }}%</span>
                                     since yesterday
                                 </p>
                                
@@ -27,21 +27,18 @@
                 </div>
             </div>
         </div>
-        {{-- 
+        
         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
             <div class="card">
                 <div class="card-body p-3">
                     <div class="row">
                         <div class="col-8">
                             <div class="numbers">
-                                <p class="text-sm mb-0 text-uppercase font-weight-bold">Today's Users</p>
+                                <p class="text-sm mb-0 text-uppercase font-weight-bold">Power</p>
                                 <h5 class="font-weight-bolder">
-                                    2,300
+                                    {{ number_format(isset($data[count($data) - 1]->power) ? $data[count($data) - 1]->power : 0, 2) }} W
                                 </h5>
-                                <p class="mb-0">
-                                    <span class="text-success text-sm font-weight-bolder">+3%</span>
-                                    since last week
-                                </p>
+                               
                             </div>
                         </div>
                         <div class="col-4 text-end">
@@ -53,20 +50,21 @@
                 </div>
             </div>
         </div>
-        --}}
+       
     </div>
     <div class="row px-3 mt-3 mb-4">
-        <div class="card">
-            <div class="card-header pb-0">
-                <h6>Voltage Data</h6>
-            </div>
-            <div class="card-body p-3">
-                <div class="chart">
-                    <canvas id="chart-line" class="chart-canvas" height="400"></canvas>
-                </div>
-            </div>
+      <div class="card">
+        <div class="card-header pb-0">
+          <h6>Energy Data</h6>
         </div>
+        <div class="card-body p-3">
+          <div class="chart">
+            <canvas id="chart-line" class="chart-canvas" height="400"></canvas>
+          </div>
+        </div>
+      </div>
     </div>
+    
     <div class="row px-3 mt-3 mb-4">
         <div class="card">
             <div class="card-header pb-0">
@@ -79,17 +77,30 @@
             </div>
         </div>
     </div>
+    
     <div class="row px-3 mt-3 mb-4">
-        <div class="card">
-            <div class="card-header pb-0">
-                <h6>Energy Data</h6>
-            </div>
-            <div class="card-body p-3">
-                <div class="chart">
-                    <canvas id="chart-line-3" class="chart-canvas" height="400"></canvas>
-                </div>
-            </div>
+      <div class="card">
+        <div class="card-header pb-0">
+          <h6>Power Data</h6>
         </div>
+        <div class="card-body p-3">
+          <div class="chart">
+            <canvas id="chart-line-3" class="chart-canvas" height="400"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row px-3 mt-3 mb-4">
+      <div class="card">
+        <div class="card-header pb-0">
+          <h6>Voltage Data</h6>
+        </div>
+        <div class="card-body p-3">
+          <div class="chart">
+            <canvas id="chart-line-4" class="chart-canvas" height="400"></canvas>
+          </div>
+        </div>
+      </div>
     </div>
     <script>
 
@@ -108,6 +119,7 @@ $energy = [];
   $v[] = $d->voltage;
   $current[] = $d->current;
   $energy[] = $d->energy;
+  $power[] = $d->power;
   $labels[] = \Carbon\Carbon::parse($d->date)->format('H:i:s');
         @endphp
       @endforeach            
@@ -115,6 +127,7 @@ $energy = [];
         let v         = @json($v);
         let current   = @json($current);
         let energy    = @json($energy);
+        let power     = @json($power);  
         let maxID     = {{ $max_id }};
         let maxEnergy = {{ $max_energy }}
         console.log(labels);
@@ -133,12 +146,12 @@ $energy = [];
 
       function renderCharts() {
         
-        let titles    = ['Voltage', 'Current', 'Energy'];
-        let elemsID   = ['chart-line', 'chart-line-2', 'chart-line-3'];
-        let dataAry   = [v, current, energy];
+        let titles    = ['Energy', 'Current', 'Power', 'Voltage'];
+        let elemsID   = ['chart-line', 'chart-line-2', 'chart-line-3', 'chart-line-4'];
+        let dataAry   = [energy, current, power, v];
         console.log(dataAry);
 
-        for(let i = 0; i < 3; i++) {
+        for(let i = 0; i < dataAry.length; i++) {
           let ctx1 = document.getElementById(elemsID[i]).getContext("2d");
           var gradientStroke1 = ctx1.createLinearGradient(0, 230, 0, 50);
           

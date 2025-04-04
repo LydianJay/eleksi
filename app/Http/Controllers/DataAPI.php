@@ -33,6 +33,25 @@ class DataAPI extends Controller
         $query = ElectricityData::whereDate('date', Carbon::now())
         ->orderBy('id','desc')
         ->first();
+
+        $lastday = ElectricityData::select('energy')
+        ->whereDate('date', Carbon::today()->subDays(1))
+        ->max('energy');
+
+        $dif = 0;
+
+        if(isset($lastday) && $lastday != null) {
+            $dif = 100 - (($query->energy - $lastday) / $query->energy ) * 100;
+        }
+
+        $data = [
+            'id'        => $query->id,
+            'voltage'   => $query->voltage,
+            'current'   => $query->current,
+            'power'     => $query->power,
+            'energy'    => $query->energy,
+            'dif'       => $dif
+        ];
         
         return response()->json($query);
     }

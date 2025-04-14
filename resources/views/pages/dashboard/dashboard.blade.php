@@ -156,15 +156,22 @@ $energy = [];
           var gradientStroke1 = ctx1.createLinearGradient(0, 230, 0, 50);
           
           let stepSize = 10;
+          let max = {{ $max_energy }} * 5;
           switch(i) {
             case 0:
               stepSize = 2;
             break;
             case 1:
               stepSize = 0.2;
+              max = current[current.length - 1] * 10;
             break;
             case 2:
               stepSize = 20;
+              max = 2000;
+            break;
+            case 3:
+              stepSize = 10;
+              max = 500;
             break;
           }
 
@@ -216,6 +223,8 @@ $energy = [];
                         padding: 10,
                         color: '#fbfbfb',
                         stepSize: stepSize,
+                        min: 0,
+                        max: max,
                         beginAtZero: true,
                         font: {
                           size: 11,

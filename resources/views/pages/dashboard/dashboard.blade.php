@@ -270,6 +270,7 @@ $energy = [];
                 v.push(data.voltage);
                 current.push(data.current);
                 energy.push(data.energy);
+                power.push(data.power);
 
                 for(let i = 0; i < canvasArry.length; i++) {
                   canvasArry[i].destroy();

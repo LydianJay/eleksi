@@ -155,6 +155,20 @@ $energy = [];
           let ctx1 = document.getElementById(elemsID[i]).getContext("2d");
           var gradientStroke1 = ctx1.createLinearGradient(0, 230, 0, 50);
           
+          let stepSize = 10;
+          switch(i) {
+            case 0:
+              stepSize = 2;
+            break;
+            case 1:
+              stepSize = 0.2;
+            break;
+            case 2:
+              stepSize = 20;
+            break;
+          }
+
+
           canvasArry.push(
 
             new Chart(ctx1,
@@ -201,6 +215,8 @@ $energy = [];
                         display: true,
                         padding: 10,
                         color: '#fbfbfb',
+                        stepSize: stepSize,
+                        beginAtZero: true,
                         font: {
                           size: 11,
                           family: "Open Sans",

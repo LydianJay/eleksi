@@ -83,6 +83,6 @@ class DataAPI extends Controller
             'cost'      => $cost,
         ];
         
-        return response()->json($query);
+        return response()->json($data);
     }
 }

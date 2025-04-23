@@ -8,7 +8,7 @@
                             <div class="numbers">
                                 <p class="text-sm mb-0 text-uppercase font-weight-bold">Energy </p>
                                 <h5 class="font-weight-bolder" id="max_energy">
-                                    {{ number_format(isset($max_energy) ? $max_energy : 0, 2) }} KWH
+                                    {{ number_format(isset($max_energy) ? $max_energy : 0, 2) }} <span>KWH</span>
                                 </h5>
                                 
                                 <p class="mb-0">
@@ -36,7 +36,7 @@
                             <div class="numbers">
                                 <p class="text-sm mb-0 text-uppercase font-weight-bold">Power</p>
                                 <h5 class="font-weight-bolder">
-                                    {{ number_format(isset($data[count($data) - 1]->power) ? $data[count($data) - 1]->power : 0, 2) }} W
+                                    {{ number_format(isset($data[count($data) - 1]->power) ? $data[count($data) - 1]->power : 0, 2) }} <span>W</span>
                                 </h5>
                                
                             </div>
@@ -49,6 +49,29 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+          <div class="card">
+            <div class="card-body p-3">
+              <div class="row">
+                <div class="col-8">
+                  <div class="numbers">
+                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Cost</p>
+                    <h5 class="font-weight-bolder" id="cost">
+                      <span>₱ </span>{{ $cost }}
+                    </h5>
+                  </div>
+                </div>
+                <div class="col-4 text-end">
+                  <div class="icon icon-shape bg-gradient-info shadow-info text-center rounded-circle">
+                    <i class="ni ni-world text-lg opacity-10" aria-hidden="true"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
        
     </div>
@@ -211,6 +234,8 @@ $energy = [];
                   },
                   scales: {
                     y: {
+                      min: 0,
+                      max: max,
                       grid: {
                         drawBorder: false,
                         display: true,
@@ -223,8 +248,7 @@ $energy = [];
                         padding: 10,
                         color: '#fbfbfb',
                         stepSize: stepSize,
-                        min: 0,
-                        max: max,
+
                         beginAtZero: true,
                         font: {
                           size: 11,
@@ -290,7 +314,9 @@ $energy = [];
                   maxEnergy = data.energy;
                   document.getElementById('max_energy').innerText = maxEnergy;
                 }
+                document.getElementById('cost').innerText = data.cost;
 
+                
                 labels.push(formatTimestamp(data.date));
                 v.push(data.voltage);
                 current.push(data.current);

@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Models\ElectricityData;
 use Illuminate\Support\Facades\Date;
-
+use App\Http\Controllers\DataAPI;
 class DashboardController extends Controller
 {
     public function index() {
@@ -30,10 +30,16 @@ class DashboardController extends Controller
         
         $dif = 0;
 
+        $dataAPI = new DataAPI();
+        $cost = $dataAPI->getCost();
+
+        $cost = json_decode($cost->getContent(), true);
+        $cost = $cost['rate'];
         if(isset($lastday) && $lastday != null) {
             $dif = 100 - (($energy - $lastday) / $energy ) * 100;
         }
+        // dd($data);
 
-        return view('pages.dashboard.dashboard', ['data' => $data, 'active_link' => 'dashboard', 'max_id' => $maxID, 'max_energy' => $energy, 'dif' => $dif]);
+        return view('pages.dashboard.dashboard', ['cost' => $cost, 'data' => $data, 'active_link' => 'dashboard', 'max_id' => $maxID, 'max_energy' => $energy, 'dif' => $dif]);
     }
 }

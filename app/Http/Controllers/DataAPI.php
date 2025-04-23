@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\ElectricityData;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\Http;
+use Symfony\Component\DomCrawler\Crawler;
 
 class DataAPI extends Controller
 {
@@ -27,6 +29,30 @@ class DataAPI extends Controller
 
     }
 
+    public function getCost() {
+        $energy = ElectricityData::max('energy');
+        $month = date('F', strtotime(Carbon::now()->subMonths(1)));
+        $year = date('Y', strtotime(Carbon::now()));
+        $html = Http::asForm()->post('https://www.surneco.com.ph/ratesimulation/index.php', [
+            'OptYear'       => $year,
+            'OptMonth'      => $month,
+            'OptConsumer'   => 'Mainland',
+            'KWhUse'        => $energy,
+            'operator'      => 'No',
+            'submit'        => 'submit',
+        ]);
+        $crawler = new Crawler($html);
+        $match = $crawler->filter('.styfntblk20white')->reduce(function (Crawler $node) {
+            return preg_match('/Php\s*\d+(\.\d+)?/', $node->text());
+        })->first();
+
+        $rateText = trim($match->text());
+
+        return response()->json([
+            'rate' => $rateText,
+        ]);
+    }
+
 
     public function getToday() {
 
@@ -44,13 +70,17 @@ class DataAPI extends Controller
             $dif = 100 - (($query->energy - $lastday) / $query->energy ) * 100;
         }
 
+        $cost = $this->getCost();
+        $cost = json_decode($cost->getContent(), true);
+        $cost = $cost['rate'];
         $data = [
             'id'        => $query->id,
             'voltage'   => $query->voltage,
             'current'   => $query->current,
             'power'     => $query->power,
             'energy'    => $query->energy,
-            'dif'       => $dif
+            'dif'       => $dif,
+            'cost'      => $cost,
         ];
         
         return response()->json($query);

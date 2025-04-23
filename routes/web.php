@@ -17,6 +17,7 @@ Route::post('/insert', [DataAPI::class, 'insert'])->name('insert');
 
 Route::get('/gettoday', [DataAPI::class,'getToday'])->name('get_today');
 
+Route::get('/getcost', [DataAPI::class,'getCost'])->name('get_cost');
 
 Route::middleware(['auth'])->group(function (){
     

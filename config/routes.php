@@ -1,6 +1,5 @@
 <?php
 
-use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 return [
 
@@ -11,6 +10,12 @@ return [
         'route' => 'dashboard',
     ],
     'table' => [
+        'name'  => 'table',
+        'title' => 'Table',
+        'icon'  => 'fas fa-table',
+        'route' => 'table',
+    ],
+    'Insights' => [
         'name'  => 'table',
         'title' => 'Table',
         'icon'  => 'fas fa-table',

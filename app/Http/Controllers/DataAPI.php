@@ -74,15 +74,10 @@ class DataAPI extends Controller
         $cost = json_decode($cost->getContent(), true);
         $cost = $cost['rate'];
         $data = [
-            'id'        => $query->id,
-            'voltage'   => $query->voltage,
-            'current'   => $query->current,
-            'power'     => $query->power,
-            'energy'    => $query->energy,
             'dif'       => $dif,
             'cost'      => $cost,
         ];
         
-        return response()->json($data);
+        return response()->json([$query, $data]);
     }
 }

@@ -60,7 +60,7 @@
                   <div class="numbers">
                     <p class="text-sm mb-0 text-uppercase font-weight-bold">Cost</p>
                     <h5 class="font-weight-bolder" id="cost">
-                      <span>₱ </span>{{ $cost }}
+                      {{ $cost }}
                     </h5>
                   </div>
                 </div>
@@ -130,20 +130,20 @@
       let canvasArry = [];
       
       @php
-$v = [];
-$current = [];
-$labels = [];
-$energy = [];
+        $v = [];
+        $current = [];
+        $labels = [];
+        $energy = [];
       @endphp
 
       @foreach($data as $d)
         @php
-  $id[] = $d->id;
-  $v[] = $d->voltage;
-  $current[] = $d->current;
-  $energy[] = $d->energy;
-  $power[] = $d->power;
-  $labels[] = \Carbon\Carbon::parse($d->date)->format('H:i:s');
+          $id[] = $d->id;
+          $v[] = $d->voltage;
+          $current[] = $d->current;
+          $energy[] = $d->energy;
+          $power[] = $d->power;
+          $labels[] = \Carbon\Carbon::parse($d->date)->format('H:i:s');
         @endphp
       @endforeach            
         let labels    = @json($labels);
@@ -153,7 +153,6 @@ $energy = [];
         let power     = @json($power);  
         let maxID     = {{ $max_id }};
         let maxEnergy = {{ $max_energy }}
-        console.log(labels);
 
       function formatTimestamp(timestamp) {
           const date = new Date(timestamp); // Create a Date object
@@ -172,7 +171,6 @@ $energy = [];
         let titles    = ['Energy', 'Current', 'Power', 'Voltage'];
         let elemsID   = ['chart-line', 'chart-line-2', 'chart-line-3', 'chart-line-4'];
         let dataAry   = [energy, current, power, v];
-        console.log(dataAry);
 
         for(let i = 0; i < dataAry.length; i++) {
           let ctx1 = document.getElementById(elemsID[i]).getContext("2d");
@@ -190,7 +188,7 @@ $energy = [];
             break;
             case 2:
               stepSize = 20;
-              max = 2000;
+              max = 5000;
             break;
             case 3:
               stepSize = 10;
@@ -305,8 +303,9 @@ $energy = [];
               });
             // Parse the response as JSON
             let data = await response.json();
-
-      
+              console.log("Data");
+              console.log(data);
+              
               if(data.id > maxID) {
                 maxID = data.id;
 
